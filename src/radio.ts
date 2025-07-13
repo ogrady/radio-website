@@ -39,7 +39,6 @@ export function setupRadio() {
   }
 
   const setStation = (index: number) => {
-    console.log("station", index)
     currentStation = index
     // Animate knob
     currentRotation = degreePerStation * index
@@ -71,7 +70,6 @@ export function setupRadio() {
     waveBand.appendChild(label)
   })
 
-  knob.addEventListener('click', () => { console.log(42); setStation((currentStation + 1) % stations.length )})
 
   let isDragging = false
   let startX = 0
@@ -87,28 +85,40 @@ export function setupRadio() {
     document.body.style.cursor = 'grabbing'
   })
 
+  function getAngleFromMouse(event) {
+  const rect = knob.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+
+  const dx = event.clientX - centerX;
+  const dy = event.clientY - centerY;
+
+  let angle = Math.atan2(dy, dx) * (180 / Math.PI); // convert radians to degrees
+  angle = angle - 90; // make top = 0 deg
+  if (angle < -180) angle += 360;
+
+  return angle;
+}
+
+  
   document.addEventListener('mousemove', (e) => {
     if (!isDragging) return
-    const dx = e.clientX - startX
-    let newAngle = currentAngle + dx * 0.5 // drag sensitivity
-    newAngle = Math.max(minAngle, Math.min(maxAngle, newAngle))
-    knob.style.transform = `rotate(${newAngle}deg)`
-    console.log("angle", newAngle)
+    const angle = getAngleFromMouse(e);
+    const clamped = Math.max(minAngle, Math.min(maxAngle, angle));
+    const index = Math.round((clamped - minAngle) / degreePerStation);
+    setStation(index)
   })
 
-  document.addEventListener('mouseup', () => {
+  document.addEventListener('mouseup', (e) => {
     if (!isDragging) return
-    isDragging = false
-    document.body.style.cursor = 'default'
-
-    // Snap to nearest station
-    const relativeAngle = currentAngle
-    const index = Math.round((relativeAngle - minAngle) / stepAngle)
-    const snappedAngle = minAngle + index * stepAngle
-    knob.style.transform = `rotate(${snappedAngle}deg)`
-    currentAngle = snappedAngle
-    // Update station
-    //setStation(index)
+    // TODO: use full coordinate and check bot components
+    if (e.clientX === startX) {
+      // "click". Don't use click handler, or we will handle the event twice
+      setStation((currentStation + 1) % stations.length )
+    } else {
+      isDragging = false
+      document.body.style.cursor = 'default'
+    }
 })
 
   updateDisplay()
