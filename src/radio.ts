@@ -21,7 +21,7 @@ export function setupRadio() {
   const knob = document.getElementById('radio-knob')!
   const indicator = document.getElementById('wave-indicator')!
   const waveBand = document.querySelector('.wave-band') as HTMLElement
-  const stationIndicators = document.querySelector('.station-indicators') as HTMLElement
+  //const stationIndicators = document.querySelector('.station-indicators') as HTMLElement
 
   const updateDisplay = () => {
     // Animate speaker text
@@ -76,11 +76,11 @@ export function setupRadio() {
 
   let isDragging = false
   let start = {x:0,y:0}
-  let currentAngle = 0
+  //let currentAngle = 0
   const totalStations = stations.length
   const minAngle = -180
   const maxAngle = 180
-  const stepAngle = (maxAngle - minAngle) / (totalStations - 1)
+  //const stepAngle = (maxAngle - minAngle) / (totalStations - 1)
 
 
 for (let i = 0; i < totalStations; i++) {
@@ -98,7 +98,7 @@ for (let i = 0; i < totalStations; i++) {
     document.body.style.cursor = 'grabbing'
   })
 
-  function getAngleFromMouse(event) {
+  function getAngleFromMouse(event: MouseEvent) {
   const rect = knob.getBoundingClientRect();
   const centerX = rect.left + rect.width / 2;
   const centerY = rect.top + rect.height / 2;
