@@ -89,7 +89,7 @@ for (let i = 0; i < totalStations; i++) {
 
   const angle = minAngle + (i * (maxAngle - minAngle)) / (totalStations - 1);
   tick.style.transform = `rotate(${angle}deg) translateY(-60px)`; // outside knob
-  stationIndicators.appendChild(tick);
+  //stationIndicators.appendChild(tick);
 }
 
   knob.addEventListener('mousedown', (e) => {
