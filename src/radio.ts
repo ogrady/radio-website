@@ -21,6 +21,7 @@ export function setupRadio() {
   const knob = document.getElementById('radio-knob')!
   const indicator = document.getElementById('wave-indicator')!
   const waveBand = document.querySelector('.wave-band') as HTMLElement
+  const stationIndicators = document.querySelector('.station-indicators') as HTMLElement
 
   const updateDisplay = () => {
     // Animate speaker text
@@ -70,18 +71,30 @@ export function setupRadio() {
     waveBand.appendChild(label)
   })
 
+  
+
 
   let isDragging = false
-  let startX = 0
+  let start = {x:0,y:0}
   let currentAngle = 0
   const totalStations = stations.length
   const minAngle = -180
   const maxAngle = 180
   const stepAngle = (maxAngle - minAngle) / (totalStations - 1)
 
+
+for (let i = 0; i < totalStations; i++) {
+  const tick = document.createElement('div');
+  tick.classList.add('station-tick');
+
+  const angle = minAngle + (i * (maxAngle - minAngle)) / (totalStations - 1);
+  tick.style.transform = `rotate(${angle}deg) translateY(-60px)`; // outside knob
+  stationIndicators.appendChild(tick);
+}
+
   knob.addEventListener('mousedown', (e) => {
     isDragging = true
-    startX = e.clientX
+    start = {x: e.clientX, y: e.clientY}
     document.body.style.cursor = 'grabbing'
   })
 
@@ -105,18 +118,17 @@ export function setupRadio() {
     if (!isDragging) return
     const angle = getAngleFromMouse(e);
     const clamped = Math.max(minAngle, Math.min(maxAngle, angle));
-    const index = Math.round((clamped - minAngle) / degreePerStation);
+    const index = Math.floor((clamped - minAngle) / degreePerStation);
     setStation(index)
   })
 
   document.addEventListener('mouseup', (e) => {
     if (!isDragging) return
-    // TODO: use full coordinate and check bot components
-    if (e.clientX === startX) {
+    isDragging = false
+    if (e.clientX === start.x && e.clientY === start.y) {
       // "click". Don't use click handler, or we will handle the event twice
       setStation((currentStation + 1) % stations.length )
     } else {
-      isDragging = false
       document.body.style.cursor = 'default'
     }
 })

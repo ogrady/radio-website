@@ -357,3 +357,22 @@ body {
   justify-content: center;
   align-items: center;
 }
+.station-indicators {
+  position: relative;
+  width: 210px;  /* same size as knob */
+  height: 210px;
+  top: 70%;
+  right: -120px;  /* match knob's position if needed */
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.station-indicators .station-tick {
+  position: absolute;
+  width: 4px;
+  height: 12px;
+  background: #ccc;
+  top: 0;
+  left: 50%;
+  transform-origin: bottom center;
+}
