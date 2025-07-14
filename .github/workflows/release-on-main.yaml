@@ -9,7 +9,26 @@ permissions:
   contents: write
 
 jobs:
+  filter:
+    runs-on: ubuntu-latest
+    outputs:
+      matched: ${{ steps.filter.outputs.match }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Filter changed files
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            match:
+              - added|modified:
+                  - '**/*.css'
+                  - '**/*.html'
+                  - '**/*.md'
+                  - '**/*.js'
   release:
+    needs: filter
+    if: needs.filter.outputs.matched == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -29,9 +48,7 @@ jobs:
       - name: Archive build output
         run: |
           mkdir release-artifacts
-          # Replace 'dist' with your build output directory if different
           cp -r dist/* release-artifacts/
-        # If your build output is not in 'dist', adjust this step accordingly
 
       - name: Get current timestamp
         id: timestamp
