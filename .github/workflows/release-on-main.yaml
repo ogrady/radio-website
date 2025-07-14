@@ -58,17 +58,10 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
+          files: release-artifacts/**
           tag_name: ${{ steps.timestamp.outputs.value }}
           name: Release ${{ steps.timestamp.outputs.value }}
           draft: false
           prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload build artifacts to release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: release-artifacts/**
-          tag_name: ${{ steps.timestamp.outputs.value }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
