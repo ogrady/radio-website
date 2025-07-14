@@ -51,10 +51,9 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Archive build output
+      - name: Create release archive
         run: |
-          mkdir release-artifacts
-          cp -r dist/* release-artifacts/
+          tar -czf build.tar.gz -C dist .
 
       - name: Get current timestamp
         id: timestamp
@@ -64,7 +63,7 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          files: release-artifacts/**
+          files: build.tar.gz
           tag_name: ${{ steps.timestamp.outputs.value }}
           name: Release ${{ steps.timestamp.outputs.value }}
           draft: false
