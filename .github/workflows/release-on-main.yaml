@@ -35,7 +35,6 @@ jobs:
     # On manual trigger: always run
     if: github.event_name == 'workflow_dispatch' || needs.filter.outputs.matched == 'true'
     needs: [filter]
-    if: needs.filter.outputs.matched == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
