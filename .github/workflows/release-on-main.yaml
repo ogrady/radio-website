@@ -1,4 +1,4 @@
-name: Build and Release on Main Push
+name: Release on main
 
 on:
   push:
@@ -9,50 +9,49 @@ permissions:
   contents: write
 
 jobs:
-  build-and-release:
+  release:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '20'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: Build Project
+      - name: Build project
         run: npm run build
 
-      - name: Get Timestamp for Release
-        id: timestamp
-        run: echo "ts=$(date -u +'%Y-%m-%dT%H-%M-%SZ')" >> $GITHUB_OUTPUT
-
-      - name: Archive Build Output
+      - name: Archive build output
         run: |
-          mkdir release
-          cp -r dist/* release/
-          cd release
-          zip -r ../build-${{ steps.timestamp.outputs.ts }}.zip .
-        shell: bash
+          mkdir release-artifacts
+          # Replace 'dist' with your build output directory if different
+          cp -r dist/* release-artifacts/
+        # If your build output is not in 'dist', adjust this step accordingly
+
+      - name: Get current timestamp
+        id: timestamp
+        run: echo "value=$(date +'%Y-%m-%d-%H%M%S')" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
-        uses: actions/create-release@v1
+        id: create_release
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.timestamp.outputs.ts }}
-          release_name: Release ${{ steps.timestamp.outputs.ts }}
+          tag_name: ${{ steps.timestamp.outputs.value }}
+          name: Release ${{ steps.timestamp.outputs.value }}
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
+      - name: Upload build artifacts to release
+        uses: softprops/action-gh-release@v2
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build-${{ steps.timestamp.outputs.ts }}.zip
-          asset_name: build-${{ steps.timestamp.outputs.ts }}.zip
-          asset_content_type: application/zip
+          files: release-artifacts/**
+          tag_name: ${{ steps.timestamp.outputs.value }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
