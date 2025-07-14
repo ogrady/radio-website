@@ -1,1 +1,1 @@
-ust a dev who loves vintage radios.
+Just a dev who loves vintage radios.
