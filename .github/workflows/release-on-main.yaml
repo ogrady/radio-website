@@ -12,6 +12,8 @@ permissions:
 
 jobs:
   filter:
+    # Only run filter step for push events, not for manual triggers
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     outputs:
       matched: ${{ steps.filter.outputs.match }}
@@ -29,7 +31,10 @@ jobs:
                   - '**/*.md'
                   - '**/*.js'
   release:
-    needs: filter
+    # On push: run only if relevant files changed
+    # On manual trigger: always run
+    if: github.event_name == 'workflow_dispatch' || needs.filter.outputs.matched == 'true'
+    needs: [filter]
     if: needs.filter.outputs.matched == 'true'
     runs-on: ubuntu-latest
     steps:
