@@ -35,9 +35,9 @@ export class Radio {
   #currentRotation = 0
   #dragInfo: null | { x: number, y: number } = null
 
-  get speaker () { return document.getElementById('radio-speaker')! }
-  get knob () { return document.getElementById('radio-knob')! }
-  get indicator () { return document.getElementById('wave-indicator')! }
+  get speaker () { return document.getElementById('radio-speaker') as HTMLElement }
+  get knob () { return document.getElementById('radio-knob') as HTMLElement }
+  get indicator () { return document.getElementById('wave-indicator') as HTMLElement }
   get waveBand () { return document.querySelector('.wave-band') as HTMLElement }
   get stationIndicators () { return document.querySelector('.station-indicators') as HTMLElement }
 
@@ -91,9 +91,6 @@ export class Radio {
   #init () {
     // Cleanup old labels if re-run
     document.querySelectorAll('.wave-label').forEach(el => el.remove())
-
-    const containerRect = this.knob.getBoundingClientRect();
-    const innerRect = this.stationIndicators.getBoundingClientRect();
 
     const offsetX = (this.knob.clientWidth - this.knob.offsetWidth) / 2;
     const offsetY = (this.knob.clientHeight - this.knob.offsetHeight) / 2;
