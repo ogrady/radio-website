@@ -9,6 +9,20 @@ body {
   margin: 0;
 }
 
+.knob-indicator {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  width: 6px;
+  height: 14px;
+  background-color: #ccc;
+  border-radius: 2px 2px 0 0;
+  box-shadow: none;
+  transform: translateX(-50%);
+  pointer-events: none;
+  border: 1px solid #999;
+}
+
 .radio {
   width: 900px;/* 80vw; */
   max-width: 900px;
@@ -16,12 +30,41 @@ body {
   background: #5c4033;
   border-radius: 20px;
   padding: 40px;
-  box-shadow: 0 0 40px black;
+  box-shadow:
+    inset 4px 4px 10px #3e2d23,
+    inset -4px -4px 10px #704a35,
+    0 0 40px black;
   display: flex;
   flex-direction: column;
   gap: 40px;
   align-items: center;
   box-sizing: border-box;
+  position: relative;
+
+}
+
+.radio-knob {
+  width: 150px;
+  height: 150px;
+  background-color: #444;
+  border-radius: 50%;
+  border: 3px solid #666;
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.radio-knob:hover {
+  box-shadow:
+    inset 2px 2px 6px #000,
+    inset -2px -2px 6px #666,
+    0 0 10px #fff;
+  transform: scale(1.05);
 }
 
 
@@ -44,325 +87,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-
-.wave-control {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.wave-band {
-  position: relative;
-  flex-grow: 1;
-  max-width: 320px; /* prevent overlap with knob */
-  height: 60px;
-  background: #222;
-  border: 2px inset #666;
-  border-radius: 10px;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-.wave-track {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  right: 10px;
-  height: 2px;
-  background: #888;
-  transform: translateY(-50%);
-}
-
-.wave-indicator {
-  position: absolute;
-  top: 50%;
-  width: 10px;
-  height: 20px;
-  background: red;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-}
-
-.wave-label {
-  position: absolute;
-  top: 100%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  white-space: nowrap;
-  color: white;
-}
-
-.radio-knob {
-  width: 50px;
-  height: 50px;
-  background: #aaa;
-  border-radius: 50%;
-  border: 3px solid #666;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  flex-shrink: 0;
-  .radio-knob {
-  cursor: grab;
-  user-select: none;
-  transition: transform 0.2s ease;
-}
-}
-
-
-.wave-band {
-  max-width: 600px;
-  height: 80px;
-  padding: 12px;
-}
-
-.radio-knob {
-  width: 70px;
-  height: 70px;
-}
-
-
-
-
-.radio-speaker {
   transition: opacity 0.3s ease;
 }
 
-.wave-indicator {
-  transition: left 0.3s ease;
-}
-
-.radio-knob {
-  transition: transform 0.3s ease;
-}
-
-.wave-label:hover {
-  color: #ffd700;
-  text-shadow: 0 0 5px #ffd700;
-}
-
-.radio-knob {
-  width: 100px;
-  height: 100px;
-  background-color: #444;
-  border: 4px solid #999;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  box-shadow: inset 2px 2px 6px #000, inset -2px -2px 6px #666;
-}
-
-
-
-.radio {
-  position: relative;
-  background-color: #5c4033;
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow:
-    inset 4px 4px 10px #3e2d23,
-    inset -4px -4px 10px #704a35,
-    0 0 40px black;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  align-items: center;
-  box-sizing: border-box;
-}
-
-
-.radio-knob {
-  width: 100px;
-  height: 100px;
-  background-color: #444;
-  border: 4px solid #999;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.2s ease;
-  box-shadow: inset 2px 2px 6px #000, inset -2px -2px 6px #666;
-}
-
-.radio-knob:hover {
-  box-shadow:
-    inset 2px 2px 6px #000,
-    inset -2px -2px 6px #666,
-    0 0 10px #fff;
-  transform: scale(1.05);
-}
-
-
-.wave-label {
-  position: absolute;
-  top: -0px;
-  bottom: 10px; /* <-- add spacing above the track */
-  transform: translateX(-50%);
-  font-size: 0.9rem;
-  color: white;
-  pointer-events: auto;
-  user-select: none;
-  transition: color 0.2s;
-}
-
-.radio-knob {
-  width: 140px;
-  height: 140px;
-  background-color: #444;
-  border: 4px solid #999;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.2s ease;
-  box-shadow:
-    0 8px 16px rgba(0, 0, 0, 0.6),
-    0 2px 4px rgba(255, 255, 255, 0.1) inset;
-}
-
-.radio-knob:hover {
-  box-shadow:
-    0 6px 12px rgba(255, 255, 255, 0.2),
-    0 4px 10px rgba(0, 0, 0, 0.8);
-  transform: scale(1.5);
-}
-
-
-.wave-label {
-  position: absolute;
-  top: 65%; /* position it below the center track, adjust as needed */
-  transform: translateX(-50%);
-  font-size: 0.85rem;
-  color: white;
-  pointer-events: auto;
-  user-select: none;
-  transition: color 0.2s;
-  
-}
-
-
-.wave-band {
-  /* ...existing styles... */
-  overflow: hidden;
-  position: relative;
-}
-
-
-.wave-label {
-  position: absolute;
-  top: 60%; /* or adjust between 55–70% depending on track position */
-  transform: translateX(-50%);
-  font-size: 0.8rem;
-  color: white;
-  pointer-events: none;
-  user-select: none;
-  transition: color 0.2s;
-  white-space: nowrap;
-}
-
-
-.wave-band {
-  line-height: 1;
-  padding-top: 20px;   /* gives space for labels above the track */
-  padding-bottom: 20px; /* space below if you prefer bottom alignment */
-}
-
-
-.wave-band {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: #222;
-  border: 2px inset #666;
-  border-radius: 10px;
-  padding: 10px;
-  overflow: hidden;
-  width: 100%;
-  max-width: 600px;
-  height: 80px;
-  box-sizing: border-box;
-}
-
-
-.wave-labels {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 90%;          /* shrink from full width */
-  margin: 0 auto;      /* center horizontally */
-  position: relative;
-  z-index: 2;
-}
-
-.wave-label {
-  font-size: 0.8rem;
-  color: white;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1;
-}
-
-
-.wave-track {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  right: 10px;
-  height: 2px;
-  background: #888;
-  transform: translateY(-50%);
-  z-index: 1;
-}
-
-.wave-label {
-  font-size: 0.8rem;
-  color: white;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1;
-  cursor: pointer;          /* Show pointer cursor */
-  user-select: none;        /* Optional: prevent text selection */
-  pointer-events: auto;     /* Make sure pointer events are enabled */
-}
-
-
-.knob-indicator {
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  width: 6px;               /* slightly wider for visibility */
-  height: 14px;             /* shorter */
-  background-color: #ccc;   /* light gray notch */
-  border-radius: 2px 2px 0 0; /* rounded top corners only */
-  box-shadow: none;         /* remove glow */
-  transform: translateX(-50%);
-  pointer-events: none;
-  border: 1px solid #999;   /* subtle border for definition */
-}
-
-.radio-knob {
-  position: relative;
-  background-color: #444;
-  border: 4px solid #999;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.2s ease;
-  box-shadow:
-    0 4px 10px rgba(0, 0, 0, 0.6),
-    0 2px 4px rgba(255, 255, 255, 0.1) inset;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .station-indicators {
-  position: relative;
-  width: 210px;  /* same size as knob */
+  position: absolute;
+  width: 210px;
   height: 210px;
   top: 70%;
-  right: -120px;  /* match knob's position if needed */
+  right: -120px;
   transform: translateY(-50%);
   pointer-events: none;
 }
@@ -375,4 +108,85 @@ body {
   top: 0;
   left: 50%;
   transform-origin: bottom center;
+}
+
+.wave-band {
+  position: relative;
+  flex-grow: 1;
+  max-width: 600px; /* prevent overlap with knob */
+  height: 90px;
+  background: #222;
+  border: 2px inset #666;
+  border-radius: 10px;
+  padding: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wave-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.wave-indicator {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 20px;
+  background: red;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  transition: left 0.3s ease;
+}
+
+.wave-label {
+  position: absolute;
+  top: 60%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  bottom: 10px; /* <-- add spacing above the track */
+  font-size: 1rem;
+  color: white;
+  pointer-events: auto;
+  user-select: none;
+  transition: color 0.2s;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+
+.wave-label:hover {
+  color: #ffd700;
+  text-shadow: 0 0 5px #ffd700;
+}
+
+.wave-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;          /* shrink from full width */
+  margin: 0 auto;      /* center horizontally */
+  position: relative;
+  z-index: 2;
+}
+
+.wave-track {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  right: 10px;
+  height: 2px;
+  background: #888;
+  transform: translateY(-50%);
+  z-index: 1;
 }

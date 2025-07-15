@@ -21,7 +21,7 @@ export function setupRadio() {
   const knob = document.getElementById('radio-knob')!
   const indicator = document.getElementById('wave-indicator')!
   const waveBand = document.querySelector('.wave-band') as HTMLElement
-  //const stationIndicators = document.querySelector('.station-indicators') as HTMLElement
+  const stationIndicators = document.querySelector('.station-indicators') as HTMLElement
 
   const updateDisplay = () => {
     // Animate speaker text
@@ -71,7 +71,14 @@ export function setupRadio() {
     waveBand.appendChild(label)
   })
 
-  
+  const containerRect = knob.getBoundingClientRect();
+  const innerRect = stationIndicators.getBoundingClientRect();
+
+  const offsetX = (knob.clientWidth - knob.offsetWidth) / 2;
+  const offsetY = (knob.clientHeight - knob.offsetHeight) / 2;
+
+  stationIndicators.style.left = `${offsetX}px`;
+  stationIndicators.style.top = `${offsetY}px`;
 
 
   let isDragging = false
@@ -99,19 +106,19 @@ for (let i = 0; i < totalStations; i++) {
   })
 
   function getAngleFromMouse(event: MouseEvent) {
-  const rect = knob.getBoundingClientRect();
-  const centerX = rect.left + rect.width / 2;
-  const centerY = rect.top + rect.height / 2;
+    const rect = knob.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
 
-  const dx = event.clientX - centerX;
-  const dy = event.clientY - centerY;
+    const dx = event.clientX - centerX;
+    const dy = event.clientY - centerY;
 
-  let angle = Math.atan2(dy, dx) * (180 / Math.PI); // convert radians to degrees
-  angle = angle - 90; // make top = 0 deg
-  if (angle < -180) angle += 360;
+    let angle = Math.atan2(dy, dx) * (180 / Math.PI); // convert radians to degrees
+    angle = angle - 90; // make top = 0 deg
+    if (angle < -180) angle += 360;
 
-  return angle;
-}
+    return angle;
+  }
 
   
   document.addEventListener('mousemove', (e) => {
