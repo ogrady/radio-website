@@ -1,3 +1,3 @@
-import { setupRadio } from './radio'
+import { Radio } from './radio'
 
-setupRadio()
+new Radio()
