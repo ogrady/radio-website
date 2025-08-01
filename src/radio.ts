@@ -1,8 +1,11 @@
 import * as marked from 'marked'
+import { EventEmitter } from 'events'
 import welcomeMd from './content/welcome.md?raw'
 import contactMd from './content/contact.md?raw'
 import projectsMd from './content/projects.md?raw'
 import aboutMd from './content/about.md?raw'
+
+const delay = (time: number) => new Promise((resolve, _reject) => setTimeout(resolve, time))
 
 export const stations = [
   { label: 'Welcome', content: await marked.parse(welcomeMd) },
@@ -30,7 +33,7 @@ function getAngleFromMouse(element: Element, event: MouseEvent) {
   return angle;
 }
 
-export class Radio {
+export class Radio extends EventEmitter {
   #currentStation = 0
   #currentRotation = 0
   #dragInfo: null | { x: number, y: number } = null
@@ -42,25 +45,26 @@ export class Radio {
   get stationIndicators () { return document.querySelector('.station-indicators') as HTMLElement }
 
   constructor () {
+    super()
     this.#init()
     this.#updateDisplay()
   }
 
-  #setStation(index: number) {
+  async #setStation(index: number) {
     this.#currentStation = index
     // Animate knob
     this.#currentRotation = degreePerStation * index
     this.knob.style.transform = `rotate(${this.#currentRotation}deg)`
-    this.#updateDisplay()
+    await this.#updateDisplay()
+    this.emit('station-changed', index, stations[index])
   }
 
-  #updateDisplay () {
+  async #updateDisplay () {
     // Animate speaker text
     this.speaker.style.opacity = '0.9'
-    setTimeout(() => {
-      this.speaker.innerHTML = stations[this.#currentStation].content
-      this.speaker.style.opacity = '1'
-    }, 150)
+    await delay(150)
+    this.speaker.innerHTML = stations[this.#currentStation].content
+    this.speaker.style.opacity = '1'
 
     // Animate indicator position
     const bandWidth = this.waveBand.offsetWidth
