@@ -1,0 +1,35 @@
+#audio-container {
+  background: #222;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  font-family: Arial, sans-serif;
+}
+
+#audio-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+#audio-list li {
+  padding: 8px;
+  cursor: pointer;
+  border-bottom: 1px solid #444;
+  transition: background 0.2s;
+}
+
+#audio-list li:hover {
+  background: #333;
+}
+
+#audio-list li.active {
+  background: #444;
+  font-weight: bold;
+}
+
+#audio-player {
+  width: 100%;
+  margin-top: 10px;
+}

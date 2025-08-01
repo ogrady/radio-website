@@ -1,3 +1,7 @@
+*.wav
+*.mp3
+*.ogg
+
 # Logs
 logs
 *.log
