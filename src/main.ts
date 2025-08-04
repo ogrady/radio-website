@@ -7,4 +7,5 @@ radio.addListener("station-changed", (_, station) => {
         player.loadAudioFiles()
     }
 })
-//document.addEventListener("DOMContentLoaded", player.loadAudioFiles);
+window.addEventListener("load", () => radio.loadStationFromHash());
+window.addEventListener("popstate", () => radio.loadStationFromHash());
