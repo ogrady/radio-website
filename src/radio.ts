@@ -102,6 +102,14 @@ export class Radio extends EventEmitter {
     this.stationIndicators.style.left = `${offsetX}px`;
     this.stationIndicators.style.top = `${offsetY}px`;
 
+
+    for (let i = 0; i < stations.length; i++) {
+      const indicator = document.createElement('div');
+      const angle = (360 / stations.length) * i;
+      indicator.style.transform = `rotate(${angle}deg) translateY(-80px)`;
+      this.stationIndicators.appendChild(indicator);
+    }
+
     // Register listeners
     document.addEventListener('mousemove', e => {
       if (!this.#dragInfo) return

@@ -190,3 +190,36 @@ body {
   transform: translateY(-50%);
   z-index: 1;
 }
+
+
+
+
+
+
+
+
+
+.knob-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.station-indicators {
+  position: absolute;
+  border-radius: 50%;
+  margin-top: 165px;
+  margin-left: 75px;
+  pointer-events: none;
+}
+
+.station-indicators div {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+  transform-origin: 50% 20px;
+}
