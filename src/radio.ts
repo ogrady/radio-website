@@ -12,7 +12,12 @@ export const stations = [
   { label: 'Projects', content: await marked.parse(projectsMd) },
   { label: 'Contact', content: await marked.parse(contactMd) },
   { label: 'About', content: await marked.parse(aboutMd) },
-]
+].map(s => ({
+  ...s,
+  slug: s.label.toLowerCase() 
+}))
+
+console.log(stations)
 
 const degreePerStation = 360 / stations.length
 const minAngle = -180
@@ -56,6 +61,7 @@ export class Radio extends EventEmitter {
     this.#currentRotation = degreePerStation * index
     this.knob.style.transform = `rotate(${this.#currentRotation}deg)`
     await this.#updateDisplay()
+    history.pushState(null, "", `#${stations[index].slug}`);
     this.emit('station-changed', index, stations[index])
   }
 
@@ -136,17 +142,9 @@ export class Radio extends EventEmitter {
   })
   }
 
+  async loadStationFromHash() {
+    const hash = window.location.hash.replace("#", "")
+    const index = stations.findIndex(station => station.slug === hash)
+    await this.#setStation(index >= 0 ? index : 0)
+  }
 }
-
-/*
-for (let i = 0; i < totalStations; i++) {
-  const tick = document.createElement('div');
-  tick.classList.add('station-tick');
-
-  const angle = minAngle + (i * (maxAngle - minAngle)) / (totalStations - 1);
-  tick.style.transform = `rotate(${angle}deg) translateY(-60px)`; // outside knob
-  //stationIndicators.appendChild(tick);
-}
-
-*/
-
