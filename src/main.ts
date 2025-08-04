@@ -1,5 +1,5 @@
-import { Radio } from './radio'
-import * as player from './player'
+import { Radio } from './radio.js'
+import * as player from './player.js'
 
 const radio = new Radio()
 radio.addListener("station-changed", (_, station) => {
