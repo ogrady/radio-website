@@ -5,7 +5,7 @@ import contactMd from './content/contact.md?raw'
 import projectsMd from './content/projects.md?raw'
 import aboutMd from './content/about.md?raw'
 
-const delay = (time: number) => new Promise((resolve, _reject) => setTimeout(resolve, time))
+const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time))
 
 export const stations = [
   { label: 'Welcome', content: await marked.parse(welcomeMd) },
