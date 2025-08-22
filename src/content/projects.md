@@ -1,1 +1,0 @@
-hese are some cool projects I've worked on.

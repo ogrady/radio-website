@@ -1,23 +1,22 @@
 import * as marked from 'marked'
 import { EventEmitter } from 'events'
-import welcomeMd from './content/welcome.md?raw'
+import servicesMd from './content/services.md?raw'
 import contactMd from './content/contact.md?raw'
-import projectsMd from './content/projects.md?raw'
-import aboutMd from './content/about.md?raw'
+import samplesMd from './content/samples.md?raw'
+import referencesMd from './content/references.md?raw'
 
 const delay = (time: number) => new Promise((resolve) => setTimeout(resolve, time))
 
 export const stations = [
-  { label: 'Welcome', content: await marked.parse(welcomeMd) },
-  { label: 'Projects', content: await marked.parse(projectsMd) },
-  { label: 'Contact', content: await marked.parse(contactMd) },
-  { label: 'About', content: await marked.parse(aboutMd) },
+  { label: 'Leistungen', content: await marked.parse(servicesMd) },
+  { label: 'Hörproben', content: await marked.parse(samplesMd) },
+  { label: 'Referenzen', content: await marked.parse(referencesMd) },
+  { label: 'Kontakt', content: await marked.parse(contactMd) },
 ].map(s => ({
   ...s,
   slug: s.label.toLowerCase() 
 }))
 
-console.log(stations)
 
 const degreePerStation = 360 / stations.length
 const minAngle = -180
@@ -44,7 +43,8 @@ export class Radio extends EventEmitter {
   #dragInfo: null | { x: number, y: number } = null
 
   get speaker () { return document.getElementById('radio-speaker') as HTMLElement }
-  get knob () { return document.getElementById('radio-knob') as HTMLElement }
+  get knob () { return document.getElementById('knob-indicator-container') as HTMLElement }
+  get indicatorContainer () { return document.getElementById('knob-indicator-container') as HTMLElement }
   get indicator () { return document.getElementById('wave-indicator') as HTMLElement }
   get waveBand () { return document.querySelector('.wave-band') as HTMLElement }
   get stationIndicators () { return document.querySelector('.station-indicators') as HTMLElement }

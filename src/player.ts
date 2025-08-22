@@ -9,8 +9,6 @@ export async function loadAudioFiles() {
     const player = document.getElementById("audio-player") as HTMLAudioElement
     if (!player) throw new Error('could not find player element')
 
-      console.log(42)
-
     list.innerHTML = ""
     for (const { file, title } of files) {
       const li = document.createElement("li")
