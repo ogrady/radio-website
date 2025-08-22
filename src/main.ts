@@ -3,7 +3,7 @@ import * as player from './player.js'
 
 const radio = new Radio()
 radio.addListener("station-changed", (_, station) => {
-    if (station.label === 'About') {
+    if (station.label === 'Hörproben') {
         player.loadAudioFiles()
     }
 })
